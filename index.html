@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexandre Correia — Consultoria Online de Treino Individual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0D0D0D;
+    --black-2:#161616;
+    --black-3:#1F1F1F;
+    --orange:#FF7A00;
+    --white:#F4F4F2;
+    --lime:#C6FF00;
+    --line:#2A2A28;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--black);
+    color:var(--white);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    line-height:0.95;
+    letter-spacing:0.01em;
+  }
+  .eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--orange);
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  a{color:inherit;text-decoration:none;}
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--lime);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* NAV */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(13,13,13,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    height:64px;
+  }
+  .logo{
+    font-family:'Anton',sans-serif;
+    font-size:1.05rem;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+  }
+  .logo span{color:var(--orange);}
+  .nav-cta{
+    background:var(--orange); color:var(--black);
+    padding:9px 18px; font-weight:700; font-size:0.82rem;
+    text-transform:uppercase; letter-spacing:0.04em;
+    border-radius:2px;
+  }
+  .nav-cta:hover{background:var(--lime);}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    padding:150px 0 90px;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.35;
+    mask-image:radial-gradient(ellipse at 70% 30%, black, transparent 70%);
+  }
+  .hero-inner{position:relative; z-index:2;}
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5.2rem);
+    max-width:780px;
+    margin:18px 0 24px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--orange);
+  }
+  .hero p.lede{
+    font-size:1.1rem; color:#B8B8B4; max-width:520px; margin-bottom:36px;
+    line-height:1.55;
+  }
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  .btn-primary{
+    background:var(--orange); color:var(--black);
+    padding:16px 30px; font-weight:800; font-size:0.95rem;
+    text-transform:uppercase; letter-spacing:0.03em;
+    border-radius:2px; display:inline-block;
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .btn-primary:hover{background:var(--lime); transform:translateY(-2px);}
+  .btn-ghost{
+    border:1px solid var(--line); color:var(--white);
+    padding:15px 26px; font-weight:600; font-size:0.9rem;
+    border-radius:2px; display:inline-block;
+    transition:border-color 0.15s ease;
+  }
+  .btn-ghost:hover{border-color:var(--orange);}
+  .hero-meta{
+    margin-top:56px; display:flex; gap:40px; flex-wrap:wrap;
+    font-family:'Space Mono',monospace; font-size:0.78rem; color:#8A8A86;
+  }
+  .hero-meta strong{color:var(--white); display:block; font-size:1.4rem; font-family:'Anton',sans-serif;}
+
+  /* MARQUEE - signature element */
+  .marquee{
+    background:var(--lime);
+    color:var(--black);
+    overflow:hidden;
+    white-space:nowrap;
+    border-bottom:1px solid var(--line);
+    border-top:1px solid var(--line);
+  }
+  .marquee-track{
+    display:inline-block;
+    padding:14px 0;
+    font-family:'Space Mono',monospace;
+    font-weight:700;
+    font-size:0.85rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    animation:scroll 26s linear infinite;
+  }
+  .marquee-track span{margin:0 22px;}
+  @keyframes scroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  section{padding:88px 0;}
+  .section-head{max-width:620px; margin-bottom:52px;}
+  .section-head h2{font-size:clamp(1.9rem,4vw,2.8rem); margin-top:12px;}
+  .section-head p{color:#B8B8B4; margin-top:16px; font-size:1.02rem; line-height:1.6;}
+
+  /* PROBLEM */
+  .problem{border-bottom:1px solid var(--line);}
+  .pain-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  .pain-card{
+    background:var(--black); padding:32px 26px;
+  }
+  .pain-card .x{
+    color:var(--orange); font-family:'Space Mono',monospace; font-size:0.9rem; font-weight:700;
+  }
+  .pain-card p{margin-top:14px; font-size:1rem; color:#D8D8D4; line-height:1.5;}
+
+  /* METHOD */
+  .method{border-bottom:1px solid var(--line);}
+  .method-list{list-style:none;}
+  .method-item{
+    display:grid; grid-template-columns:64px 1fr; gap:24px;
+    padding:28px 0; border-top:1px solid var(--line);
+  }
+  .method-item:last-child{border-bottom:1px solid var(--line);}
+  .method-num{
+    font-family:'Anton',sans-serif; font-size:1.8rem; color:var(--orange);
+  }
+  .method-item h3{font-size:1.2rem; text-transform:none; font-family:'Inter',sans-serif; font-weight:700; margin-bottom:8px;}
+  .method-item p{color:#B8B8B4; font-size:0.98rem; line-height:1.55; max-width:560px;}
+
+  /* PROOF placeholder */
+  .proof{border-bottom:1px solid var(--line);}
+  .proof-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  .proof-card{
+    background:var(--black-2); border:1px dashed var(--line);
+    padding:26px; border-radius:4px;
+  }
+  .proof-card .stars{color:var(--lime); font-size:0.9rem; margin-bottom:12px; letter-spacing:2px;}
+  .proof-card p{color:#9A9A96; font-size:0.92rem; font-style:italic; line-height:1.5;}
+  .proof-card .who{margin-top:14px; font-family:'Space Mono',monospace; font-size:0.75rem; color:#6E6E6A; text-transform:uppercase;}
+  .proof-note{
+    margin-top:20px; font-family:'Space Mono',monospace; font-size:0.75rem; color:#6E6E6A;
+  }
+
+  /* PRICING */
+  .pricing{border-bottom:1px solid var(--line);}
+  .price-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .price-card{
+    background:var(--black-2); border:1px solid var(--line);
+    padding:36px 30px; border-radius:4px; position:relative;
+  }
+  .price-card.featured{border-color:var(--orange);}
+  .badge{
+    position:absolute; top:-13px; left:30px;
+    background:var(--orange); color:var(--black);
+    font-family:'Space Mono',monospace; font-size:0.7rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.06em;
+    padding:5px 12px; border-radius:2px;
+  }
+  .price-card h3{font-family:'Inter',sans-serif; font-weight:700; text-transform:none; font-size:1.15rem; color:#D8D8D4;}
+  .price-value{
+    font-family:'Anton',sans-serif; font-size:2.6rem; color:var(--white); margin:16px 0 4px;
+  }
+  .price-value span{font-size:1rem; font-family:'Inter',sans-serif; color:#8A8A86; font-weight:400;}
+  .price-sub{font-size:0.85rem; color:#8A8A86; margin-bottom:22px;}
+  .price-feats{list-style:none; margin-bottom:26px;}
+  .price-feats li{
+    font-size:0.92rem; color:#D8D8D4; padding:8px 0;
+    border-top:1px solid var(--line);
+  }
+  .price-feats li:first-child{border-top:none;}
+  .price-cta{
+    display:block; text-align:center; width:100%;
+    background:var(--orange); color:var(--black);
+    padding:14px; font-weight:800; text-transform:uppercase;
+    font-size:0.88rem; border-radius:2px; letter-spacing:0.03em;
+  }
+  .price-cta:hover{background:var(--lime);}
+  .price-card:not(.featured) .price-cta{
+    background:transparent; border:1px solid var(--line); color:var(--white);
+  }
+  .price-card:not(.featured) .price-cta:hover{border-color:var(--orange);}
+
+  /* FAQ */
+  .faq{border-bottom:1px solid var(--line);}
+  .faq-item{border-top:1px solid var(--line); padding:22px 0;}
+  .faq-item:last-child{border-bottom:1px solid var(--line);}
+  .faq-item summary{
+    cursor:pointer; font-weight:700; font-size:1.02rem; list-style:none;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"+"; font-family:'Anton',sans-serif; font-size:1.4rem; color:var(--orange);
+  }
+  .faq-item[open] summary::after{content:"–";}
+  .faq-item p{color:#B8B8B4; margin-top:14px; font-size:0.95rem; line-height:1.6; max-width:640px;}
+
+  /* FINAL CTA */
+  .final{
+    text-align:center; padding:100px 24px;
+    background:linear-gradient(180deg, var(--black) 0%, var(--black-2) 100%);
+  }
+  .final h2{font-size:clamp(2rem,5vw,3.4rem); margin-bottom:18px;}
+  .final p{color:#B8B8B4; max-width:480px; margin:0 auto 32px; font-size:1.02rem;}
+
+  footer{
+    border-top:1px solid var(--line); padding:36px 0;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px;
+    font-family:'Space Mono',monospace; font-size:0.78rem; color:#6E6E6A;
+  }
+  footer a:hover{color:var(--orange);}
+
+  @media (max-width:760px){
+    .pain-grid{grid-template-columns:1fr;}
+    .proof-grid{grid-template-columns:1fr;}
+    .price-grid{grid-template-columns:1fr;}
+    .method-item{grid-template-columns:44px 1fr;}
+    .hero-meta{gap:24px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">PERSONAL<span>.</span>ALEXANDRE</div>
+    <a href="#planos" class="nav-cta">Agendar consultoria</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Consultoria online · Treino 100% individual</div>
+    <h1>Treino genérico<br>não te leva a<br><em>lugar nenhum.</em></h1>
+    <p class="lede">Prescrição pensada pra você — sem turma, sem plano de prateleira, sem copiar o treino de outra pessoa. Acompanhamento real de um profissional de Educação Física, ajustado conforme sua evolução.</p>
+    <div class="cta-row">
+      <a href="https://wa.me/5521988259006" class="btn-primary">Falar no WhatsApp</a>
+      <a href="#planos" class="btn-ghost">Ver planos</a>
+    </div>
+    <div class="hero-meta">
+      <div><strong>100%</strong>Individualizado</div>
+      <div><strong>Online</strong>Em qualquer lugar</div>
+      <div><strong>CREF</strong>Profissional registrado</div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>DISCIPLINA</span><span>·</span><span>CONSTÂNCIA</span><span>·</span><span>EXECUÇÃO CORRETA</span><span>·</span><span>RESULTADO REAL</span><span>·</span>
+    <span>DISCIPLINA</span><span>·</span><span>CONSTÂNCIA</span><span>·</span><span>EXECUÇÃO CORRETA</span><span>·</span><span>RESULTADO REAL</span><span>·</span>
+  </div>
+</div>
+
+<section class="problem">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">O problema</div>
+      <h2>Você treina, mas não sai do lugar?</h2>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="x">01 — Genérico</div>
+        <p>Treino copiado de vídeo ou app, sem considerar seu corpo, sua rotina, suas limitações.</p>
+      </div>
+      <div class="pain-card">
+        <div class="x">02 — Estagnação</div>
+        <p>Mesma carga, mesmo treino, há meses. Sem progressão planejada, o corpo simplesmente para de responder.</p>
+      </div>
+      <div class="pain-card">
+        <div class="x">03 — Sem acompanhamento</div>
+        <p>Ninguém corrige sua execução, ninguém ajusta o plano quando algo muda. Você treina sozinho de verdade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="method">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Como funciona</div>
+      <h2>Do diagnóstico ao ajuste contínuo</h2>
+      <p>Um processo, não um PDF genérico enviado uma vez e esquecido.</p>
+    </div>
+    <ul class="method-list">
+      <li class="method-item">
+        <div class="method-num">01</div>
+        <div>
+          <h3>Anamnese e objetivo</h3>
+          <p>Levantamento de histórico, limitações físicas, rotina e objetivo real — não o genérico "emagrecer", o específico do seu caso.</p>
+        </div>
+      </li>
+      <li class="method-item">
+        <div class="method-num">02</div>
+        <div>
+          <h3>Prescrição individual</h3>
+          <p>Treino estruturado com progressão de carga planejada, adaptado ao equipamento que você tem disponível.</p>
+        </div>
+      </li>
+      <li class="method-item">
+        <div class="method-num">03</div>
+        <div>
+          <h3>Correção de execução</h3>
+          <p>Envio de vídeo pra ajuste de técnica — a diferença entre treinar e treinar com risco de lesão.</p>
+        </div>
+      </li>
+      <li class="method-item">
+        <div class="method-num">04</div>
+        <div>
+          <h3>Ajuste periódico</h3>
+          <p>Revisão do plano conforme sua evolução, pra nunca estagnar no mesmo treino por meses.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Por que confiar</div>
+      <h2>Formação e método, não promessa vazia</h2>
+    </div>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="x" style="color:var(--orange); font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700;">CREF ATIVO</div>
+        <p style="font-style:normal; color:#D8D8D4;">Profissional de Educação Física registrado — prescrição responsável, não achismo de internet.</p>
+      </div>
+      <div class="proof-card">
+        <div class="x" style="color:var(--orange); font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700;">MÉTODO PRÓPRIO</div>
+        <p style="font-style:normal; color:#D8D8D4;">Anamnese, prescrição individual e ajuste periódico — o mesmo processo, sem atalho, pra cada aluno.</p>
+      </div>
+      <div class="proof-card">
+        <div class="x" style="color:var(--orange); font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700;">DISCIPLINA APLICADA</div>
+        <p style="font-style:normal; color:#D8D8D4;">Quem acompanha meu conteúdo sabe: constância e execução correta vêm antes de qualquer promessa de resultado rápido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="planos">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Investimento</div>
+      <h2>Escolha seu plano</h2>
+    </div>
+    <div class="price-grid">
+      <div class="price-card featured">
+        <span class="badge">Mais flexível</span>
+        <h3>Plano Mensal</h3>
+        <div class="price-value">R$ 99,90<span>/mês</span></div>
+        <div class="price-sub">Cobrança mensal, cancele quando quiser</div>
+        <ul class="price-feats">
+          <li>Treino 100% individualizado</li>
+          <li>Correção de execução por vídeo</li>
+          <li>Ajuste periódico do plano</li>
+          <li>Suporte direto via WhatsApp</li>
+        </ul>
+        <a href="https://pages.mfitpersonal.com.br/index?acao=page&tipo=1&page=112605&isCheckout=false" class="price-cta">Quero esse plano</a>
+      </div>
+      <div class="price-card">
+        <span class="badge">Melhor custo</span>
+        <h3>Plano Trimestral</h3>
+        <div class="price-value">R$ 199,70<span>/3 meses</span></div>
+        <div class="price-sub">Em até 3x — economia real vs. mensal avulso</div>
+        <ul class="price-feats">
+          <li>Tudo do Plano Mensal</li>
+          <li>Progressão planejada em 3 ciclos</li>
+          <li>Prioridade nos ajustes</li>
+          <li>Acompanhamento contínuo sem interrupção</li>
+        </ul>
+        <a href="https://pages.mfitpersonal.com.br/index?acao=page&tipo=1&page=112605&isCheckout=false" class="price-cta">Quero esse plano</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Dúvidas</div>
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <details class="faq-item" open>
+      <summary>Preciso ir a alguma academia específica?</summary>
+      <p>Não. O treino é adaptado ao local e equipamento que você tem disponível, seja academia, condomínio ou casa.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Como funciona a correção de execução?</summary>
+      <p>Você envia vídeos executando os exercícios e recebe retorno com ajustes de técnica — pra treinar com segurança e eficiência.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Em quanto tempo recebo meu treino?</summary>
+      <p>Após o preenchimento da sua anamnese, seu plano de treino personalizado é elaborado e enviado em até <strong>24 horas</strong>.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Posso cancelar quando quiser?</summary>
+      <p>O Plano Mensal pode ser cancelado a qualquer momento. O Trimestral segue o ciclo de 3 meses contratado.</p>
+    </details>
+  </div>
+</section>
+
+<section class="final">
+  <div class="eyebrow">Comece agora</div>
+  <h2>Seu treino, do seu jeito.<br>Sem enrolação.</h2>
+  <p>Fale direto comigo e monte seu plano de treino individual ainda essa semana.</p>
+  <a href="https://wa.me/5521988259006" class="btn-primary">Falar no WhatsApp agora</a>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:14px;">
+    <div>© Alexandre Correia — Personal Trainer</div>
+    <div style="display:flex; gap:20px;">
+      <a href="https://www.instagram.com/personal.alexandrecorreia" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://wa.me/5521988259006" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
