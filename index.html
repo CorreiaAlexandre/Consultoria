@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alexandre Correia — Consultoria Online de Treino Individual</title>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-69SMZKVWYF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-69SMZKVWYF');
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -477,6 +487,17 @@
     </div>
   </div>
 </footer>
+
+<script>
+  document.querySelectorAll('.btn-primary, .price-cta, .btn-ghost').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      gtag('event', 'click_botao', {
+        'botao_texto': btn.textContent.trim(),
+        'destino': btn.href || ''
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
