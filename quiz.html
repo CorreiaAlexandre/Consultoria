@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Você está apto à Consultoria do Alexandre Correia?</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0D0D0D;
+    --black-2:#161616;
+    --black-3:#1F1F1F;
+    --orange:#FF7A00;
+    --white:#F4F4F2;
+    --lime:#C6FF00;
+    --line:#2A2A28;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--black); color:var(--white);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    display:flex; flex-direction:column;
+  }
+  h1,h2{
+    font-family:'Anton',sans-serif; font-weight:400;
+    text-transform:uppercase; line-height:1.05;
+  }
+  .eyebrow{
+    font-family:'Space Mono',monospace; font-size:0.7rem;
+    letter-spacing:0.16em; text-transform:uppercase; color:var(--orange);
+  }
+  a{color:inherit;}
+
+  .topbar{
+    padding:18px 20px; display:flex; align-items:center; gap:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .logo{font-family:'Anton',sans-serif; font-size:1rem; text-transform:uppercase;}
+  .logo span{color:var(--orange);}
+  .progress-wrap{
+    flex:1; height:6px; background:var(--black-3); border-radius:99px; overflow:hidden;
+  }
+  .progress-bar{
+    height:100%; width:0%; background:var(--orange);
+    transition:width 0.4s ease;
+  }
+  .step-count{
+    font-family:'Space Mono',monospace; font-size:0.75rem; color:#8A8A86; white-space:nowrap;
+  }
+
+  main{
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding:32px 20px;
+  }
+  .card{width:100%; max-width:560px;}
+  .step{display:none; animation:fade 0.35s ease;}
+  .step.active{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  .q-title{font-size:clamp(1.5rem,5vw,2.1rem); margin:14px 0 28px;}
+
+  .options{display:flex; flex-direction:column; gap:12px;}
+  .opt{
+    background:var(--black-2); border:1px solid var(--line);
+    padding:18px 20px; border-radius:6px; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center;
+    font-weight:600; font-size:1rem; transition:border-color 0.15s ease, background 0.15s ease;
+  }
+  .opt:hover{border-color:var(--orange); background:var(--black-3);}
+  .opt .arrow{color:var(--orange); font-size:1.2rem;}
+
+  .nav-row{margin-top:24px; display:flex; justify-content:space-between; align-items:center;}
+  .btn-back{
+    background:none; border:none; color:#8A8A86; font-family:'Space Mono',monospace;
+    font-size:0.8rem; cursor:pointer; text-transform:uppercase; letter-spacing:0.05em;
+  }
+  .btn-back:hover{color:var(--white);}
+
+  .loading-wrap{text-align:center;}
+  .loading-wrap h2{font-size:clamp(1.6rem,5vw,2.2rem); margin-bottom:28px;}
+  .bar-outer{
+    height:10px; background:var(--black-3); border-radius:99px; overflow:hidden; margin-bottom:14px;
+  }
+  .bar-inner{
+    height:100%; width:0%; background:linear-gradient(90deg, var(--orange), var(--lime));
+    transition:width 2.4s ease;
+  }
+  .loading-pct{font-family:'Space Mono',monospace; color:#8A8A86; font-size:0.85rem;}
+
+  .result-wrap{text-align:center;}
+  .result-badge{
+    display:inline-block; background:var(--lime); color:var(--black);
+    font-family:'Space Mono',monospace; font-weight:700; font-size:0.75rem;
+    letter-spacing:0.08em; text-transform:uppercase; padding:6px 16px;
+    border-radius:99px; margin-bottom:18px;
+  }
+  .result-wrap h2{font-size:clamp(1.8rem,6vw,2.6rem); margin-bottom:20px;}
+  .feats{
+    list-style:none; text-align:left; max-width:420px; margin:0 auto 30px;
+    background:var(--black-2); border:1px solid var(--line); border-radius:8px; padding:22px 24px;
+  }
+  .feats li{
+    padding:10px 0; border-top:1px solid var(--line); font-size:0.96rem;
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .feats li:first-child{border-top:none;}
+  .feats li::before{content:"✓"; color:var(--lime); font-weight:700;}
+
+  .btn-cta{
+    display:inline-block; background:var(--orange); color:var(--black);
+    font-weight:800; text-transform:uppercase; letter-spacing:0.03em;
+    padding:18px 34px; border-radius:4px; font-size:0.98rem;
+    text-decoration:none; transition:background 0.15s ease, transform 0.15s ease;
+  }
+  .btn-cta:hover{background:var(--lime); transform:translateY(-2px);}
+  .result-note{
+    margin-top:16px; font-size:0.82rem; color:#8A8A86; font-family:'Space Mono',monospace;
+  }
+
+  @media(max-width:480px){
+    .opt{padding:16px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">ALEXANDRE<span>.</span>CORREIA</div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="step-count" id="stepCount">1/6</div>
+</div>
+
+<main>
+  <div class="card">
+
+    <section class="step active" data-step="1">
+      <div class="eyebrow">Pré-avaliação · Consultoria</div>
+      <h1 class="q-title">Qual seu objetivo principal agora?</h1>
+      <div class="options">
+        <div class="opt" data-q="objetivo" data-v="Emagrecer / definir">Emagrecer / definir <span class="arrow">→</span></div>
+        <div class="opt" data-q="objetivo" data-v="Ganhar massa muscular">Ganhar massa muscular <span class="arrow">→</span></div>
+        <div class="opt" data-q="objetivo" data-v="Condicionamento geral / saúde">Condicionamento geral / saúde <span class="arrow">→</span></div>
+        <div class="opt" data-q="objetivo" data-v="Performance esportiva">Performance esportiva <span class="arrow">→</span></div>
+      </div>
+    </section>
+
+    <section class="step" data-step="2">
+      <div class="eyebrow">Pergunta 2 de 6</div>
+      <h1 class="q-title">O que mais te impede de ter resultado hoje?</h1>
+      <div class="options">
+        <div class="opt" data-q="dificuldade" data-v="Treino genérico, não feito pra mim">🏋️ Treino genérico, não feito pra mim <span class="arrow">→</span></div>
+        <div class="opt" data-q="dificuldade" data-v="Me dedico e não evoluo">😤 Me dedico e não evoluo <span class="arrow">→</span></div>
+        <div class="opt" data-q="dificuldade" data-v="Falta de tempo / constância">⏰ Falta de tempo / constância <span class="arrow">→</span></div>
+        <div class="opt" data-q="dificuldade" data-v="Não sei se estou treinando certo">❓ Não sei se estou treinando certo <span class="arrow">→</span></div>
+      </div>
+      <div class="nav-row"><button class="btn-back" onclick="goBack()">← Voltar</button></div>
+    </section>
+
+    <section class="step" data-step="3">
+      <div class="eyebrow">Pergunta 3 de 6</div>
+      <h1 class="q-title">Há quanto tempo você treina?</h1>
+      <div class="options">
+        <div class="opt" data-q="tempo" data-v="Menos de 1 ano">Menos de 1 ano <span class="arrow">→</span></div>
+        <div class="opt" data-q="tempo" data-v="1 a 3 anos">1 a 3 anos <span class="arrow">→</span></div>
+        <div class="opt" data-q="tempo" data-v="3 a 5 anos">3 a 5 anos <span class="arrow">→</span></div>
+        <div class="opt" data-q="tempo" data-v="Mais de 5 anos">Mais de 5 anos <span class="arrow">→</span></div>
+      </div>
+      <div class="nav-row"><button class="btn-back" onclick="goBack()">← Voltar</button></div>
+    </section>
+
+    <section class="step" data-step="4">
+      <div class="eyebrow">Pergunta 4 de 6</div>
+      <h1 class="q-title">Onde você treina hoje?</h1>
+      <div class="options">
+        <div class="opt" data-q="local" data-v="Academia">Academia <span class="arrow">→</span></div>
+        <div class="opt" data-q="local" data-v="Em casa">Em casa <span class="arrow">→</span></div>
+        <div class="opt" data-q="local" data-v="Academia + casa">Academia + casa <span class="arrow">→</span></div>
+        <div class="opt" data-q="local" data-v="Ainda não treino, quero começar">Ainda não treino, quero começar <span class="arrow">→</span></div>
+      </div>
+      <div class="nav-row"><button class="btn-back" onclick="goBack()">← Voltar</button></div>
+    </section>
+
+    <section class="step" data-step="5">
+      <div class="eyebrow">Pergunta 5 de 6</div>
+      <h1 class="q-title">Já treinou com personal antes?</h1>
+      <div class="options">
+        <div class="opt" data-q="historico" data-v="Sim, mas não deu certo">Sim, mas não deu certo <span class="arrow">→</span></div>
+        <div class="opt" data-q="historico" data-v="Sim, e gostei da experiência">Sim, e gostei da experiência <span class="arrow">→</span></div>
+        <div class="opt" data-q="historico" data-v="Não, seria minha primeira vez">Não, seria minha primeira vez <span class="arrow">→</span></div>
+      </div>
+      <div class="nav-row"><button class="btn-back" onclick="goBack()">← Voltar</button></div>
+    </section>
+
+    <section class="step" data-step="6">
+      <div class="eyebrow">Última pergunta</div>
+      <h1 class="q-title">Quando você quer começar?</h1>
+      <div class="options">
+        <div class="opt" data-q="urgencia" data-v="Agora, já quero meu plano">Agora, já quero meu plano <span class="arrow">→</span></div>
+        <div class="opt" data-q="urgencia" data-v="Essa semana">Essa semana <span class="arrow">→</span></div>
+        <div class="opt" data-q="urgencia" data-v="Só pesquisando por enquanto">Só pesquisando por enquanto <span class="arrow">→</span></div>
+      </div>
+      <div class="nav-row"><button class="btn-back" onclick="goBack()">← Voltar</button></div>
+    </section>
+
+    <section class="step" data-step="loading">
+      <div class="loading-wrap">
+        <h2>Montando seu<br>diagnóstico...</h2>
+        <div class="bar-outer"><div class="bar-inner" id="loadingBar"></div></div>
+        <div class="loading-pct" id="loadingPct">0%</div>
+      </div>
+    </section>
+
+    <section class="step" data-step="result">
+      <div class="result-wrap">
+        <div class="result-badge">Perfil apto ✓</div>
+        <h2>Seu plano pode ser<br>100% individual.</h2>
+        <ul class="feats">
+          <li>Treino feito pro seu objetivo, não genérico</li>
+          <li>Correção de execução por vídeo</li>
+          <li>Ajuste periódico conforme sua evolução</li>
+          <li>Acompanhamento direto comigo, sem fila</li>
+        </ul>
+        <a href="#" id="ctaWpp" target="_blank" class="btn-cta">Falar com Alexandre no WhatsApp</a>
+        <div class="result-note">Resposta em até 24h úteis</div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+  const answers = {};
+  const totalSteps = 6;
+  let currentStep = 1;
+
+  function updateProgress(step){
+    const pct = Math.min((step-1)/totalSteps*100, 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('stepCount').textContent = Math.min(step,totalSteps) + '/' + totalSteps;
+  }
+
+  function showStep(stepId){
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector('.step[data-step="'+stepId+'"]').classList.add('active');
+  }
+
+  document.querySelectorAll('.opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const q = opt.dataset.q;
+      const v = opt.dataset.v;
+      answers[q] = v;
+
+      if(currentStep < totalSteps){
+        currentStep++;
+        updateProgress(currentStep);
+        showStep(currentStep);
+      } else {
+        showStep('loading');
+        runLoading();
+      }
+    });
+  });
+
+  function goBack(){
+    if(currentStep > 1){
+      currentStep--;
+      updateProgress(currentStep);
+      showStep(currentStep);
+    }
+  }
+
+  function runLoading(){
+    const bar = document.getElementById('loadingBar');
+    const pct = document.getElementById('loadingPct');
+    let p = 0;
+    bar.style.width = '100%';
+    const interval = setInterval(() => {
+      p += Math.floor(Math.random()*18)+8;
+      if(p >= 100){ p = 100; clearInterval(interval); setTimeout(showResult, 400); }
+      pct.textContent = p + '%';
+    }, 260);
+  }
+
+  function showResult(){
+    const msg =
+`Oi Alexandre! Fiz o quiz de pré-avaliação e aqui está meu perfil:
+- Objetivo: ${answers.objetivo || '-'}
+- Dificuldade: ${answers.dificuldade || '-'}
+- Tempo de treino: ${answers.tempo || '-'}
+- Onde treino: ${answers.local || '-'}
+- Já treinei com personal: ${answers.historico || '-'}
+- Quero começar: ${answers.urgencia || '-'}
+
+Quero saber mais sobre a consultoria!`;
+
+    const wppLink = 'https://wa.me/5521988259006?text=' + encodeURIComponent(msg);
+    document.getElementById('ctaWpp').href = wppLink;
+
+    showStep('result');
+    document.getElementById('progressBar').style.width = '100%';
+    document.getElementById('stepCount').textContent = totalSteps + '/' + totalSteps;
+  }
+
+  updateProgress(1);
+</script>
+
+</body>
+</html>
