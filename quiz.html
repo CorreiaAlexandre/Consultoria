@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Você está apto à Consultoria do Alexandre Correia?</title>
 <meta name="robots" content="noindex">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-69SMZKVWYF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-69SMZKVWYF');
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -253,11 +263,19 @@
       const v = opt.dataset.v;
       answers[q] = v;
 
+      gtag('event', 'quiz_resposta', {
+        'pergunta_numero': currentStep,
+        'pergunta_tipo': q,
+        'resposta': v
+      });
+
       if(currentStep < totalSteps){
         currentStep++;
+        gtag('event', 'quiz_avancou', { 'pergunta_numero': currentStep });
         updateProgress(currentStep);
         showStep(currentStep);
       } else {
+        gtag('event', 'quiz_completou_perguntas');
         showStep('loading');
         runLoading();
       }
@@ -297,9 +315,17 @@
 Quero saber mais sobre a consultoria!`;
 
     const wppLink = 'https://wa.me/5521988259006?text=' + encodeURIComponent(msg);
-    document.getElementById('ctaWpp').href = wppLink;
+    const ctaBtn = document.getElementById('ctaWpp');
+    ctaBtn.href = wppLink;
+    ctaBtn.addEventListener('click', function(){
+      gtag('event', 'quiz_clicou_whatsapp', {
+        'objetivo': answers.objetivo || '-',
+        'urgencia': answers.urgencia || '-'
+      });
+    });
 
     showStep('result');
+    gtag('event', 'quiz_viu_resultado');
     document.getElementById('progressBar').style.width = '100%';
     document.getElementById('stepCount').textContent = totalSteps + '/' + totalSteps;
   }
